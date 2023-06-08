@@ -1,12 +1,17 @@
 <script>
-  function onClick() {
-    const audio = new Audio('pop.ogg');
-    audio.play();
+  function sleep(t){
+    return new Promise(resolve=>setTimeout(resolve,t));
+  }
+  async function onClick() {
+    var asd = document.getElementById('asd');
+    var a = asd.play();
     const img = document.querySelector('.PopCat');
     img.src = 'opencat.png';
-    setTimeout(() => {
-      img.src = 'closecat.png';
-    }, 100);
+    await sleep(200);
+    img.src = 'closecat.png';
+    if (a !== undefined) {
+      a.then(_ => {asd.pause()}).catch(b => {console.log('error', b)})
+    }
   }
 </script>
 <html lang="en">
@@ -25,6 +30,7 @@
     <div id="root">
       <div class="App">
         <div class="App">
+          <audio style="display: none" class="asd" id="asd" src="pop.ogg"></audio>
           <h1 class="Title">탈선린!!</h1>
           <img class="PopCat" src="closecat.png" alt="GNU cat" height="100%" on:click={onClick}>
         </div>
@@ -32,8 +38,10 @@
     </div>
   </body>
 </html>
-
 <style>
+  img {
+    visibility:visible;
+  }
   body{
     -webkit-font-smoothing:antialiased;
     -moz-osx-font-smoothing:grayscale;
